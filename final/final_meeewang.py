@@ -167,13 +167,17 @@ def prompt():
     response4 = '\'\"' + response2 + '\"\''
     nodes = []
     recommend = []
+    for node in getList(response3):
+        if node in getList(response4):
+            nodes.append(node)     
     try:
-        for node in getList(response3):
-            if node in getList(response4):
-                nodes.append(node)
-                for i in getInst(node):
-                    recommend.append(i)
-        print ("Instititutions you probably would like to consider: ", recommend)
+        for inst in instList:
+            i = 0
+            while i in range(len(getList(inst))-1):
+                if getList(inst)[i] in nodes:
+                    i+=1
+            recommend.append(inst)
+        print ("Institutions you probably would like to consider: ", recommend)
     except:
         print("Sorry, ", response1, "or ", response2, " cannot be found. Please check your name or change institutions")
         prompt()
