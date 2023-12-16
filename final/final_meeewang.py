@@ -1,16 +1,12 @@
 import requests
-import csv
 import pandas as pd
 import numpy as np
 from zipfile import ZipFile
-import io 
 from time import sleep
-
+import io
 
 rows = 0
 cols = 0   
-
-
 
 def initialize(url):
     '''
@@ -41,8 +37,6 @@ def printData(array):
             print("\t".join(str(value) for value in row), file=file)
 
 
-  
- 
 def create_nodes(array, keywords):   
     '''
     Find five parameters from data
@@ -169,12 +163,21 @@ def instNumber(inst, referenceInst):
 def prompt():
     response1 = input("Please list your top choice of institution: ")
     response2 = input("please list your second choice of institution: ")
-    try: 
-        instNumber(response1, response2)
-        print("Instititutions you probably would like to consider: ", instNumber(response1, response2))
+    response3 = '\'\"' + response1 + '\"\''
+    response4 = '\'\"' + response2 + '\"\''
+    nodes = []
+    recommend = []
+    try:
+        for node in getList(response3):
+            if node in getList(response4):
+                nodes.append(node)
+                for i in getInst(node):
+                    recommend.append(i)
+        print ("Instititutions you probably would like to consider: ", recommend)
     except:
         print("Sorry, ", response1, "or ", response2, " cannot be found. Please check your name or change institutions")
         prompt()
+      
 
 
 if __name__ == "__main__":
@@ -202,7 +205,6 @@ if __name__ == "__main__":
     # create five parameters
     inst_raw = create_nodes(data, ["ICLEVEL", "CONTROL", "INSTSIZE", "OBEREG", "HBCU"])
     init_global_data()
-    print(cache)
     prompt()
 
 
